@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Pokedex</title>
+</head>
+<body>
+    <div class="pokedex">
+        <div class="card">
+            <div class="card-header">
+                <div class="rarity">Basic Pokemon</div>
+                <div class="title">
+                    <div class="name">Pikachu</div>
+                    <div class="stats">
+                        <div class="hp">40 HP</div>
+                        <div class="type">{E}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-image">
+                <img src="img/pikachu.png" alt="" class="image">
+            </div>
+            <div class="card-details">
+                <p>Mouse Pokemon, length: 1' 4", Weight: 13 lbs.</p>
+            </div>
+            <div class="card-abilities">
+                <div class="ability-container">
+                    <div class="cost">{N}</div>
+                    <div class="ability">
+                        <span class="ability-name">Gnaw</span>
+                        <span class="ability-description"></span>
+                    </div>
+                    <div class="damage">10</div>
+                </div>
+                <div class="ability-container">
+                    <div class="cost">{N}{E}</div>
+                    <div class="ability">
+                        <span class="ability-name">Thunder Jolt</span>
+                        <span class="ability-description">Flip a coin. If tails, Pikachu does 10 amage to itself</span>
+                    </div>
+                    <div class="damage">30</div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="footer-items">
+                    <div class="footer-item">
+                        <div class="footer-item-title">weakness</div>
+                        <div class="footer-item-icon">{Earth Icon}</div>
+                    </div>
+                    <div class="footer-item">
+                        <div class="footer-item-title">resistance</div>
+                        <div class="footer-item-icon"></div>
+                    </div>
+                    <div class="footer-item">
+                        <div class="footer-item-title">retreat cost</div>
+                        <div class="footer-item-icon">{N}</div>
+                    </div>
+                </div>
+                <div class="footer-notes">
+                    When several of these pokemon gather, their electricity can cause lightning storms
+                </div>
+
+
+            </div>
+        </div>
+        
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
