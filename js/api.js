@@ -6,6 +6,7 @@ var pokeAPI = (function makeAPI(global) {
     EVT.on("init", loadPokemon);
     EVT.on("pagination-next-clicked", loadNext);
     EVT.on("pagination-previous-clicked", loadPrevious);
+    EVT.on("scrolled-to-bottom", loadNext);
     
     function fetchJSON(...args) {
         return fetch(...args).then(function toJSON(response) {
@@ -20,6 +21,8 @@ var pokeAPI = (function makeAPI(global) {
     }
 
     function loadNext() {
+        if (!nextURL) return;
+
         return fetchJSON(nextURL)
             .then(loadDetails)
             .then(emitNextLoadSuccess);

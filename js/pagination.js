@@ -3,7 +3,7 @@ var Pagination = (function(global) {
     var $pagination;
     var currentPage = 1;
     
-    EVT.on("init", init);
+    // EVT.on("init", init);
     
     function init () {
         $pagination = document.querySelector(".js-pagination");
@@ -28,9 +28,9 @@ var Pagination = (function(global) {
     function makePages() {
         var pages = ["previous"];
     
-        // for (var i = 1; i <= NUM_PAGES; i++) {
-        //     pages.push(String(i));
-        // }
+        for (var i = 1; i <= NUM_PAGES; i++) {
+            pages.push(String(i));
+        }
     
         pages.push("next");
         return pages;

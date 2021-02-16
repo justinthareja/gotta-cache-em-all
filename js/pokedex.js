@@ -3,15 +3,32 @@ var Pokedex = (function(global) {
     
     EVT.on("init", init);
     EVT.on("pokemon-load-success", render);
-    EVT.on("next-load-success", render);
+    EVT.on("next-load-success", append);
     EVT.on("previous-load-success", render);
     
     function init() {
         $pokedex = document.querySelector(".js-pokedex");
+
+        $pokedex.addEventListener("scroll", handleScroll);
+    }
+
+    function append(pokemons) {
+        var htmlString = pokedexTemplate(pokemons);
+        var $body = stringToHTML(htmlString);
+
+        Array.from($body.children)
+             .forEach(function appendPokemon($pokemon) {
+                $pokedex.append($pokemon);
+            });
+
     }
 
     function render(pokemons) {
-        $pokedex.innerHTML = pokemons.reduce(
+        $pokedex.innerHTML = pokedexTemplate(pokemons);
+    }
+
+    function pokedexTemplate(pokemons) {
+        return pokemons.reduce(
             function pokedexHTML(htmlString, pokemon) {
                 return htmlString + pokedexItemTemplate(pokemon);
             },
@@ -55,6 +72,12 @@ var Pokedex = (function(global) {
                 </div>
             </div>
         `);
+    }
+
+    function handleScroll(e) {
+        if (($pokedex.scrollTop + $pokedex.clientHeight) >= $pokedex.scrollHeight) {
+            EVT.emit("scrolled-to-bottom");
+        }
     }
 
     var publicAPI = {};

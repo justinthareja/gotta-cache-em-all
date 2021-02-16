@@ -7,6 +7,7 @@
 .page {
     height: var(--w-60);    
     width: var(--w-60);
+    padding: var(--w-20);
     border-top: 1px solid var(--grey-200);
     border-bottom: 1px solid var(--grey-200);
     border-right: 1px solid var(--grey-200);
