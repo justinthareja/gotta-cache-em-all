@@ -1,0 +1,31 @@
+.pokedex {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.pokedex-item {
+    height: var(--w-120);
+    width: var(--w-110);
+    margin: var(--w-20);
+    padding: var(--w-30);
+
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+
+    border-radius: 4px;
+    background-color: var(--grey-300);
+    color: var(--grey-050);
+
+    cursor: pointer;
+}
+
+.pokemon-image {
+    width: var(--w-90);
+}
+
+.pokemon-type {
+    padding: 0 var(--w-20);
+    border-radius: 4px;
+}
