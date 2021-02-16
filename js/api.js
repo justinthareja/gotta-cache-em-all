@@ -27,9 +27,9 @@ var pokeAPI = (function makeAPI(global) {
 
     function loadDetails(response) {
         var { results, next, previous } = response;
+        
         prevURL = previous;
         nextURL = next;
-        debugger;
 
         return Promise.all(
             results.map(function fetchDetails(result) {
