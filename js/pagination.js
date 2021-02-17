@@ -1,13 +1,13 @@
 var Pagination = (function(global) {
-    const NUM_PAGES = 5;
+    const NUM_PAGES = 5; // number of pages available on pagination ui
+    const ITEMS_PER_PAGE = 20; // total number of pokemon per page
+
     var $pagination;
     var currentPage = 1;
     var pageSet = 0;
     
     EVT.on("init", init);
-    EVT.on("pagination-next-clicked", goToNextPage);
-    EVT.on("pagination-previous-clicked", goToPreviousPage);
-    EVT.on("pagination-number-clicked", goToPage);
+    EVT.on("pagination-click", goToPage);
     
     function init () {
         $pagination = document.querySelector(".js-pagination");
@@ -17,37 +17,26 @@ var Pagination = (function(global) {
     }
     
     function handlePageClick(e) {
-        if (e.target.matches(".js-page-next")) {
-            // next button is clicked
-            EVT.emit("pagination-next-clicked");
-        } else if (e.target.matches(".js-page-previous") && currentPage > 1) {
-            // previous button is clicked
-            EVT.emit("pagination-previous-clicked");
-        } else {
-            // page number clicked
-            const pageNumber = Number(e.target.getAttribute("id"));
-            EVT.emit("pagination-number-clicked", pageNumber)
+        if (!e.target.matches(".js-page")) {
+            return;
         }
+
+        goToPage(e.target.getAttribute("id"));
     }
     
     function goToPage(page) {
-        currentPage = page;
+        if (page == "previous" && currentPage > 1) {
+            currentPage--;
+        } else if (page == "next") {
+            currentPage ++;
+        } else {
+            currentPage = Number(page);
+        }
+        
+        EVT.emit("page-update", currentPage);
         render();
     }
 
-    function goToNextPage() {
-        // TODO: find last page
-        currentPage++;
-        render();
-    }
-
-    function goToPreviousPage() {
-        if (currentPage == 1) return;
-
-        currentPage--;
-        render();
-    }
-    
     function makePages() {
         var firstPage = (NUM_PAGES * pageSet) + 1;
         var lastPage = NUM_PAGES * (pageSet + 1);
@@ -80,8 +69,8 @@ var Pagination = (function(global) {
         return makePages().reduce(
             function pagesHtml(htmlString, page) {
                 var classNames = (`page
-                    js-page-${page} 
                     page-${page}
+                    js-page
                     ${page == currentPage ? "is-selected" : ""}
                 `);
     
@@ -101,7 +90,17 @@ var Pagination = (function(global) {
         $pagination.innerHTML = template();
     }
     
-    var publicAPI = {};
-    return {};
+    function getState() {
+        return { 
+            currentPage, 
+            itemsPerPage: ITEMS_PER_PAGE 
+        };
+    }
+
+    var publicAPI = {
+        getState
+    };
+
+    return publicAPI;
 
 })(this);

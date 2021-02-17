@@ -1,4 +1,7 @@
 .pokedex {
+    max-width: 1050px;
+    margin: 0 auto;
+    
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;

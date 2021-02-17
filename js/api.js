@@ -1,29 +1,30 @@
-var pokeAPI = (function makeAPI(global) {
+var API = (function makeAPI(global) {
     const API_URL = "https://pokeapi.co/api/v2";
+    const pokemon = [];
 
     var LIMIT = 20;
     var prevURL = "";
     var nextURL = "";
 
     EVT.on("init", init);
-    EVT.on("pagination-next-clicked", loadNext);
-    EVT.on("pagination-previous-clicked", loadPrevious);
-    EVT.on("pagination-number-clicked", loadPage);
+    EVT.on("initial-load-success", loadNext);
+    EVT.on("next-load-success", loadNext);
     
     function init() {
-        loadPokemon();
+        return getPokemonList()
+            .then(loadDetails)
+            .then(emitRender)
+            .then(emitInitialLoadSuccess)
+    }
+
+    function getPokemon() {
+        return pokemon;
     }
 
     function fetchJSON(...args) {
         return fetch(...args).then(function toJSON(response) {
             return response.json();
         });
-    }
-
-    function loadPrevious() {
-        return fetchJSON(prevURL)
-            .then(loadDetails)
-            .then(emitPrevLoadSuccess)
     }
 
     function loadNext() {
@@ -52,45 +53,42 @@ var pokeAPI = (function makeAPI(global) {
             results.map(function fetchDetails(result) {
                 return fetchJSON(result.url);
             })
-        );
+        ).then(function cache(p) {
+            pokemon.push(...p);
+            return p;
+        });
     }
     
-    function loadPokemon() {
-        return getPokemonList()
-            .then(loadDetails)
-            .then(emitPokemonLoadSuccess)
-    }
-    
-    function getPokemonList(options = {}) {
-        return fetchJSON(makeListURL(options));
-    }
-
-    function makeListURL(interval) {
-        const { 
-            limit = LIMIT, 
-            offset = 0 
+    function getPokemonList(interval = {}) {
+        const {
+            limit = LIMIT,
+            offset = 0
         } = interval;
 
-        return `${API_URL}/pokemon?offset=${offset}&limit=${limit}`;
+        const url = `${API_URL}/pokemon?offset=${offset}&limit=${limit}`;
+
+        return fetchJSON(url);
     }
 
-    function emitPokemonLoadSuccess(pokemon) {
-        EVT.emit("pokemon-load-success", pokemon);
+    function emitInitialLoadSuccess(pokemon) {
+        EVT.emit("initial-load-success", pokemon);
     }
 
     function emitNextLoadSuccess(pokemon) {
         EVT.emit("next-load-success", pokemon)
     }
 
-    function emitPrevLoadSuccess(pokemon) {
-        EVT.emit("previous-load-success", pokemon);
-    }
-
     function emitPageLoadSuccess(pokemon) {
         EVT.emit("page-load-success", pokemon);
     }
 
-    var publicAPI = {};
+    function emitRender(pokemon) {
+        EVT.emit("render", pokemon);
+    }
+
+    var publicAPI = {
+        getPokemon
+    };
 
     return publicAPI;
 

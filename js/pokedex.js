@@ -1,11 +1,9 @@
-var Pokedex = (function(global) {
+var Pokedex = (function(global, API, Pagination) {
     var $pokedex;
     
     EVT.on("init", init);
-    EVT.on("pokemon-load-success", render);
-    EVT.on("next-load-success", render);
-    EVT.on("previous-load-success", render);
-    EVT.on("page-load-success", render);
+    EVT.on("render", render);
+    EVT.on("page-update", render);
     
     function init() {
         $pokedex = document.querySelector(".js-pokedex");
@@ -22,7 +20,17 @@ var Pokedex = (function(global) {
 
     }
 
-    function render(pokemons) {
+    function getPokemonToBeRendered() {
+        const pokemon = API.getPokemon();
+        const { currentPage, itemsPerPage } = Pagination.getState();
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = currentPage * itemsPerPage;
+
+        return pokemon.slice(start, end);
+    }
+
+    function render() {
+        const pokemons = getPokemonToBeRendered();
         $pokedex.innerHTML = pokedexTemplate(pokemons);
     }
 
@@ -55,19 +63,19 @@ var Pokedex = (function(global) {
                 </div>
                 <div class="pokemon-type-container">
                     ${types.reduce(
-                function typeHtml(htmlString, cur) {
-                    var { type } = cur;
-                    var classNames = `pokemon-type type-${type.name.toLowerCase()} text-small`
-                    var html = (`
-                                <div class="${classNames}">
-                                    ${type.name}
-                                </div>
-                            `);
+                        function typeHtml(htmlString, cur) {
+                            var { type } = cur;
+                            var classNames = `pokemon-type type-${type.name.toLowerCase()} text-small`
+                            var html = (`
+                                        <div class="${classNames}">
+                                            ${type.name}
+                                        </div>
+                                    `);
 
-                    return htmlString + html;
-                },
-                ""
-            )}
+                            return htmlString + html;
+                        },
+                        ""
+                    )}
                 </div>
             </li>
         `);
@@ -75,5 +83,5 @@ var Pokedex = (function(global) {
 
     var publicAPI = {};
     return publicAPI;
-})(this);
+})(this, API, Pagination);
 
