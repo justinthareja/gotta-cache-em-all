@@ -2,8 +2,11 @@ var Pagination = (function(global) {
     const NUM_PAGES = 5;
     var $pagination;
     var currentPage = 1;
+    var pageSet = 0;
     
-    // EVT.on("init", init);
+    EVT.on("init", init);
+    EVT.on("pagination-next-clicked", goToNextPage);
+    EVT.on("pagination-previous-clicked", goToPreviousPage);
     
     function init () {
         $pagination = document.querySelector(".js-pagination");
@@ -18,18 +21,42 @@ var Pagination = (function(global) {
             return;
         }
 
-        if (e.target.matches(".js-page-previous")) {
+        if (e.target.matches(".js-page-previous") && currentPage > 1) {
             EVT.emit("pagination-previous-clicked");
             return;
         }
     }
     
+    function goToNextPage() {
+        // TODO: find last page
+        currentPage++;
+        render();
+    }
+
+    function goToPreviousPage() {
+        if (currentPage == 1) return;
+
+        currentPage--;
+        render();
+    }
     
     function makePages() {
+        var firstPage = (NUM_PAGES * pageSet) + 1;
+        var lastPage = NUM_PAGES * (pageSet + 1);
+
+        if (currentPage > lastPage) {
+            pageSet ++;
+        }
+
+        if (currentPage < firstPage) {
+            pageSet--;
+        }
+
         var pages = ["previous"];
-    
-        for (var i = 1; i <= NUM_PAGES; i++) {
-            pages.push(String(i));
+        
+        for (let i = 1; i <= NUM_PAGES; i++) {
+            let pageNumber = (NUM_PAGES * pageSet + i);
+            pages.push(String(pageNumber));
         }
     
         pages.push("next");

@@ -3,13 +3,11 @@ var Pokedex = (function(global) {
     
     EVT.on("init", init);
     EVT.on("pokemon-load-success", render);
-    EVT.on("next-load-success", append);
+    EVT.on("next-load-success", render);
     EVT.on("previous-load-success", render);
     
     function init() {
         $pokedex = document.querySelector(".js-pokedex");
-
-        $pokedex.addEventListener("scroll", handleScroll);
     }
 
     function append(pokemons) {
@@ -45,7 +43,7 @@ var Pokedex = (function(global) {
         } = pokemon;
 
         return (`
-            <div class="pokedex-item pokemon">
+            <li class="pokedex-item pokemon">
                 <div class="pokemon-number">${id}</div>
                 <div class="pokemon-name h5">${name}</div>
                 <div class="pokemon-image-container">
@@ -70,14 +68,8 @@ var Pokedex = (function(global) {
                 ""
             )}
                 </div>
-            </div>
+            </li>
         `);
-    }
-
-    function handleScroll(e) {
-        if (($pokedex.scrollTop + $pokedex.clientHeight) >= $pokedex.scrollHeight) {
-            EVT.emit("scrolled-to-bottom");
-        }
     }
 
     var publicAPI = {};
