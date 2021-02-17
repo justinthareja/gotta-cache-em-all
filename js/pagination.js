@@ -7,8 +7,8 @@ var Pagination = (function(global) {
     var pageSet = 0;
     
     EVT.on("init", init);
-    EVT.on("pagination-click", goToPage);
-    
+    EVT.on("render", render);
+
     function init () {
         $pagination = document.querySelector(".js-pagination");
         $pagination.addEventListener("click", handlePageClick);
@@ -33,8 +33,10 @@ var Pagination = (function(global) {
             currentPage = Number(page);
         }
         
-        EVT.emit("page-update", currentPage);
-        render();
+        EVT.emit("page-update", {
+            currentPage,
+            ITEMS_PER_PAGE,
+        });
     }
 
     function makePages() {
@@ -90,17 +92,7 @@ var Pagination = (function(global) {
         $pagination.innerHTML = template();
     }
     
-    function getState() {
-        return { 
-            currentPage, 
-            itemsPerPage: ITEMS_PER_PAGE 
-        };
-    }
-
-    var publicAPI = {
-        getState
-    };
-
+    var publicAPI = {};
     return publicAPI;
 
 })(this);

@@ -1,9 +1,8 @@
-var Pokedex = (function(global, API, Pagination) {
+var Pokedex = (function(global) {
     var $pokedex;
     
     EVT.on("init", init);
     EVT.on("render", render);
-    EVT.on("page-update", render);
     
     function init() {
         $pokedex = document.querySelector(".js-pokedex");
@@ -20,21 +19,15 @@ var Pokedex = (function(global, API, Pagination) {
 
     }
 
-    function getPokemonToBeRendered() {
-        const pokemon = API.getPokemon();
-        const { currentPage, itemsPerPage } = Pagination.getState();
-        const start = (currentPage - 1) * itemsPerPage;
-        const end = currentPage * itemsPerPage;
 
-        return pokemon.slice(start, end);
-    }
-
-    function render() {
-        const pokemons = getPokemonToBeRendered();
+    function render(pokemons) {
         $pokedex.innerHTML = pokedexTemplate(pokemons);
     }
 
     function pokedexTemplate(pokemons) {
+        if (!pokemons || !pokemons.reduce) {
+            debugger;
+        }
         return pokemons.reduce(
             function pokedexHTML(htmlString, pokemon) {
                 return htmlString + pokedexItemTemplate(pokemon);
@@ -83,5 +76,5 @@ var Pokedex = (function(global, API, Pagination) {
 
     var publicAPI = {};
     return publicAPI;
-})(this, API, Pagination);
+})(this);
 

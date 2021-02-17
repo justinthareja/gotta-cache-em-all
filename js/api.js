@@ -1,14 +1,15 @@
 var API = (function makeAPI(global) {
     const API_URL = "https://pokeapi.co/api/v2";
     const pokemon = [];
-
-    var LIMIT = 20;
+    
+    var LIMIT = 20; // default to ITEMS_PER_PAGE from pagination.js
     var prevURL = "";
     var nextURL = "";
 
     EVT.on("init", init);
     EVT.on("initial-load-success", loadNext);
     EVT.on("next-load-success", loadNext);
+    EVT.on("page-update", validatePageData);
     
     function init() {
         return getPokemonList()
@@ -17,8 +18,18 @@ var API = (function makeAPI(global) {
             .then(emitInitialLoadSuccess)
     }
 
-    function getPokemon() {
-        return pokemon;
+    // check to make sure this page is loaded then render
+    function validatePageData(data) {
+        const { currentPage, ITEMS_PER_PAGE } = data;
+        const start = (currentPage - 1) * ITEMS_PER_PAGE;
+        const end =  currentPage * ITEMS_PER_PAGE;
+        const pokemonToBeRendered = pokemon.slice(start, end);
+
+        if (pokemonToBeRendered.length < ITEMS_PER_PAGE) {
+            // fetch new data before render 
+        } else {
+            emitRender(pokemonToBeRendered)
+        }
     }
 
     function fetchJSON(...args) {
@@ -86,9 +97,7 @@ var API = (function makeAPI(global) {
         EVT.emit("render", pokemon);
     }
 
-    var publicAPI = {
-        getPokemon
-    };
+    var publicAPI = {};
 
     return publicAPI;
 
