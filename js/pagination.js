@@ -7,6 +7,7 @@ var Pagination = (function(global) {
     EVT.on("init", init);
     EVT.on("pagination-next-clicked", goToNextPage);
     EVT.on("pagination-previous-clicked", goToPreviousPage);
+    EVT.on("pagination-number-clicked", goToPage);
     
     function init () {
         $pagination = document.querySelector(".js-pagination");
@@ -17,16 +18,23 @@ var Pagination = (function(global) {
     
     function handlePageClick(e) {
         if (e.target.matches(".js-page-next")) {
+            // next button is clicked
             EVT.emit("pagination-next-clicked");
-            return;
-        }
-
-        if (e.target.matches(".js-page-previous") && currentPage > 1) {
+        } else if (e.target.matches(".js-page-previous") && currentPage > 1) {
+            // previous button is clicked
             EVT.emit("pagination-previous-clicked");
-            return;
+        } else {
+            // page number clicked
+            const pageNumber = Number(e.target.getAttribute("id"));
+            EVT.emit("pagination-number-clicked", pageNumber)
         }
     }
     
+    function goToPage(page) {
+        currentPage = page;
+        render();
+    }
+
     function goToNextPage() {
         // TODO: find last page
         currentPage++;
@@ -56,7 +64,7 @@ var Pagination = (function(global) {
         
         for (let i = 1; i <= NUM_PAGES; i++) {
             let pageNumber = (NUM_PAGES * pageSet + i);
-            pages.push(String(pageNumber));
+            pages.push(pageNumber);
         }
     
         pages.push("next");
@@ -68,6 +76,7 @@ var Pagination = (function(global) {
     }
     
     function template() {
+        // TODO: make previous appear disabled when current page = 1
         return makePages().reduce(
             function pagesHtml(htmlString, page) {
                 var classNames = (`page
@@ -77,7 +86,9 @@ var Pagination = (function(global) {
                 `);
     
                 var html = (`
-                    <div class="${classNames}">${properNoun(page)}</div>
+                    <div id=${page} class="${classNames}">${
+                        typeof page == "string" ? properNoun(page) : page
+                    }</div>
                 `);
     
                 return htmlString + html;

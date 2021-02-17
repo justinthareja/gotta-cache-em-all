@@ -5,6 +5,7 @@ var Pokedex = (function(global) {
     EVT.on("pokemon-load-success", render);
     EVT.on("next-load-success", render);
     EVT.on("previous-load-success", render);
+    EVT.on("page-load-success", render);
     
     function init() {
         $pokedex = document.querySelector(".js-pokedex");

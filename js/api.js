@@ -1,13 +1,19 @@
 var pokeAPI = (function makeAPI(global) {
     const API_URL = "https://pokeapi.co/api/v2";
+
+    var LIMIT = 20;
     var prevURL = "";
     var nextURL = "";
 
-    EVT.on("init", loadPokemon);
+    EVT.on("init", init);
     EVT.on("pagination-next-clicked", loadNext);
     EVT.on("pagination-previous-clicked", loadPrevious);
-    EVT.on("scrolled-to-bottom", loadNext);
+    EVT.on("pagination-number-clicked", loadPage);
     
+    function init() {
+        loadPokemon();
+    }
+
     function fetchJSON(...args) {
         return fetch(...args).then(function toJSON(response) {
             return response.json();
@@ -17,7 +23,7 @@ var pokeAPI = (function makeAPI(global) {
     function loadPrevious() {
         return fetchJSON(prevURL)
             .then(loadDetails)
-            .then(emitPrevLoadSuccess);
+            .then(emitPrevLoadSuccess)
     }
 
     function loadNext() {
@@ -25,7 +31,15 @@ var pokeAPI = (function makeAPI(global) {
 
         return fetchJSON(nextURL)
             .then(loadDetails)
-            .then(emitNextLoadSuccess);
+            .then(emitNextLoadSuccess)
+    }
+
+    function loadPage(pageNumber) {
+        const offset = (pageNumber - 1) * LIMIT;
+
+        return getPokemonList({ offset })
+            .then(loadDetails)
+            .then(emitPageLoadSuccess)
     }
 
     function loadDetails(response) {
@@ -44,17 +58,20 @@ var pokeAPI = (function makeAPI(global) {
     function loadPokemon() {
         return getPokemonList()
             .then(loadDetails)
-            .then(emitPokemonLoadSuccess);
+            .then(emitPokemonLoadSuccess)
     }
     
     function getPokemonList(options = {}) {
-        var {
-            limit = 20,
-            offset = 0
-        } = options;
-    
-        var url = `${API_URL}/pokemon?offset=${offset}&limit=${limit}`;
-        return fetchJSON(url);
+        return fetchJSON(makeListURL(options));
+    }
+
+    function makeListURL(interval) {
+        const { 
+            limit = LIMIT, 
+            offset = 0 
+        } = interval;
+
+        return `${API_URL}/pokemon?offset=${offset}&limit=${limit}`;
     }
 
     function emitPokemonLoadSuccess(pokemon) {
@@ -69,7 +86,12 @@ var pokeAPI = (function makeAPI(global) {
         EVT.emit("previous-load-success", pokemon);
     }
 
+    function emitPageLoadSuccess(pokemon) {
+        EVT.emit("page-load-success", pokemon);
+    }
+
     var publicAPI = {};
+
     return publicAPI;
 
 })(this);
