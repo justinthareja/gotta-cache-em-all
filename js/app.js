@@ -1,5 +1,1 @@
-var EVT = new EventEmitter2();
-
-document.addEventListener("DOMContentLoaded", function() {
-    EVT.emit("init");
-});
+console.log("gotta catch em all");

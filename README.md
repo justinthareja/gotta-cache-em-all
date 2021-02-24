@@ -1,2 +1,3 @@
 # pokedex
-Gotta cache 'em all
+
+A Vanilla JS implementation of Professor Oak's pokedex.
