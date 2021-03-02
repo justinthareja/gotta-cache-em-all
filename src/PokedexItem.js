@@ -2,7 +2,7 @@ import React from "react";
 
 function PokedexItem(props) {
   const { name } = props;
-  return <div className="PokedexItem">{name}</div>;
+  return <li className="PokedexItem">{name}</li>;
 }
 
 export default PokedexItem;
