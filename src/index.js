@@ -8,7 +8,6 @@ function App() {
   return (
     <React.StrictMode>
       <div className="App">
-        <h1>gotta cache em all</h1>
         <Pokedex />
       </div>
     </React.StrictMode>

@@ -1,18 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Pokedex.css";
 import api from "./api";
+import PokedexItem from "./PokedexItem";
 
 function Pokedex() {
-  useEffect(() => {
-    fetchPokemons();
+  const [pokemons, setPokemons] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-    async function fetchPokemons() {
+  useEffect(() => {
+    loadPokemons();
+
+    async function loadPokemons() {
       const { results } = await api.getPokemonsList();
-      console.log(results);
+      setPokemons(results);
+      setIsLoading(false);
     }
   }, []);
 
-  return <ul className="Pokedex">A List of pokemon</ul>;
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  return (
+    <ul className="Pokedex">
+      {pokemons.length === 0 ? (
+        <h1>No Pokemons here :(</h1>
+      ) : (
+        pokemons.map((pokemon) => (
+          <PokedexItem key={pokemon.name} {...pokemon} />
+        ))
+      )}
+    </ul>
+  );
 }
 
 export default Pokedex;
