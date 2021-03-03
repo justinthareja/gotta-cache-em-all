@@ -1,2 +1,30 @@
 .PokedexItem {
+  height: var(--w-120);
+  width: var(--w-110);
+  margin: var(--w-20);
+  padding: var(--w-30);
+
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 4px;
+  background-color: var(--grey-300);
+  color: var(--grey-050);
+}
+
+.PokedexItem a:link,
+.PokedexItem a:visited {
+  display: block;
+  text-decoration: none;
+}
+
+.PokedexItem .image {
+  width: var(--w-90);
+}
+
+.PokedexItem .type {
+  padding: 0 var(--w-20);
+  border-radius: 4px;
 }

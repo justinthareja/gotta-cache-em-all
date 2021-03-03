@@ -12,7 +12,8 @@ function Pokedex() {
 
     async function loadPokemons() {
       const { results } = await api.getPokemonsList();
-      setPokemons(results);
+
+      setPokemons(results.slice(0, 20));
       setIsLoading(false);
     }
   }, []);

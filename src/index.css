@@ -1,5 +1,204 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:400");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+:root {
+  /* Spacing Sizes */
+  --w-10: 4px;
+  --w-20: 8px;
+  --w-30: 12px;
+  --w-40: 16px;
+  --w-50: 24px;
+  --w-60: 32px;
+  --w-70: 48px;
+  --w-80: 64px;
+  --w-90: 96px;
+  --w-100: 128px;
+  --w-110: 192px;
+  --w-120: 256px;
+  --w-130: 384px;
+  --w-140: 512px;
+  --w-150: 640px;
+  --w-160: 768px;
+
+  /* Type colors */
+  --color-normal: #a8a77a;
+  --color-fire: #ee8130;
+  --color-water: #6390f0;
+  --color-electric: #f7d02c;
+  --color-grass: #7ac74c;
+  --color-ice: #96d9d6;
+  --color-fighting: #c22e28;
+  --color-poison: #a33ea1;
+  --color-ground: #e2bf65;
+  --color-flying: #a98ff3;
+  --color-psychic: #f95587;
+  --color-bug: #a6b91a;
+  --color-rock: #b6a136;
+  --color-ghost: #735797;
+  --color-dragon: #6f35fc;
+  --color-dark: #705746;
+  --color-steel: #b7b7ce;
+  --color-fairy: #d685ad;
+
+  /* Neutrals */
+  --grey-050: #faf9f7;
+  --grey-100: #e8e6e1;
+  --grey-200: #d3cec4;
+  --grey-300: #b8b2a7;
+  --grey-400: #a39e93;
+  --grey-500: #857f72;
+  --grey-600: #625d52;
+  --grey-700: #504a40;
+  --grey-800: #423d33;
+  --grey-900: #27241d;
+}
+
+/* Font system */
+
+html {
+  font-size: 100%;
+} /*16px*/
+
+body {
+  background: white;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  line-height: 1.75;
+  color: #000000;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 3rem 0 1.38rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: 3.052rem;
+}
+
+h2 {
+  font-size: 2.441rem;
+}
+
+h3 {
+  font-size: 1.953rem;
+}
+
+h4 {
+  font-size: 1.563rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+.h1 {
+  font-size: 3.052rem;
+}
+
+.h2 {
+  font-size: 2.441rem;
+}
+
+.h3 {
+  font-size: 1.953rem;
+}
+
+.h4 {
+  font-size: 1.563rem;
+}
+
+.h5 {
+  font-size: 1.25rem;
+}
+
+.text-small {
+  font-size: 0.8rem;
+}
+
+.type-normal {
+  background-color: var(--color-normal);
+}
+
+.type-fire {
+  background-color: var(--color-fire);
+}
+
+.type-water {
+  background-color: var(--color-water);
+}
+.type-electric {
+  background-color: var(--color-electric);
+}
+
+.type-grass {
+  background-color: var(--color-grass);
+}
+
+.type-ice {
+  background-color: var(--color-ice);
+}
+
+.type-fighting {
+  background-color: var(--color-fighting);
+}
+
+.type-poison {
+  background-color: var(--color-poison);
+}
+
+.type-ground {
+  background-color: var(--color-ground);
+}
+
+.type-flying {
+  background-color: var(--color-flying);
+}
+
+.type-psychic {
+  background-color: var(--color-psychic);
+}
+
+.type-bug {
+  background-color: var(--color-bug);
+}
+
+.type-rock {
+  background-color: var(--color-rock);
+}
+
+.type-ghost {
+  background-color: var(--color-ghost);
+}
+
+.type-dragon {
+  background-color: var(--color-dragon);
+}
+
+.type-dark {
+  background-color: var(--color-dark);
+}
+
+.type-steel {
+  background-color: var(--color-steel);
+}
+
+.type-fairy {
+  background-color: var(--color-fairy);
 }
